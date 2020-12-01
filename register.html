@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            body{
+                
+                background-color:lightgreen;
+                align-items:center;
+                justify-content:center;
+                display:flex;
+                padding:100px;
+                margin:50px;
+                background-size:cover;
+                background-position:center center;
+               
+            }
+                
+            div{
+                background-image:URL("C:/Users/AJAY/Desktop/ocean.jpg");
+                background-color:cyan;
+                width:300px;
+                height:300px;
+              
+                border:1px solid black;
+                border-radius:20px;
+
+                
+            }
+            .inputform{
+                border-radius:7px;
+                padding:5px;
+                margin:5px
+               
+            }
+            
+
+            h1{
+                color:lightgreen;
+            }
+            #btn{
+                background-color:lightskyblue;
+            }
+            a{
+                text-decoration:none;
+                color:red;
+                font-size:20px;
+            }
+        </style>
+
+    </head>
+    <body>
+        <center>
+     <div>
+         <h1>registration form</h1>
+         <form>
+             <input class="inputform" type="text" id="txt" placeholder="enter name" ><br>
+             <input  class="inputform" type="email" id="email" placeholder="enter email"><br>
+             <input   class="inputform" type="password" id="pass" placeholder="enter password"><br>
+             <input    class="inputform" type="number" id="num" placeholder="enter mobile no"><br><br>
+             <input   id="btn" class="inputform" type="submit" value="submit" onclick="register()" >
+         </form>
+         
+         <p>already registered?<a href="login.html">login</a></p>
+         <span id="invalid" style="color:red;font-size:20px" ></span>
+     </div>
+     
+     </center>
+     <script>
+         
+         var arr=[]
+         var getdata=JSON.parse(localStorage.getItem("userdata"))
+         if(getdata.length){
+             arr=getdata;
+         }
+         function register(){
+             event.preventDefault();
+             var username=document.getElementById("txt").value;
+             var email=document.getElementById("email").value;
+             var password=document.getElementById("pass").value;
+             var mblno=document.getElementById("num").value;
+             var user={
+                 username:username,
+                 email:email,
+                 password:password,
+                 mblno:mblno
+             }
+            
+             
+            if(username==""||email==""||password==""||mblno==""){
+                document.getElementById("invalid").innerHTML="* all fields are mandotory";
+                return false;
+             }
+             else if(username.length<2){
+                document.getElementById("invalid").innerHTML="*username not lessthan 2"; 
+                return false;
+             }
+             else if(!email.includes("@")) {
+                document.getElementById("invalid").innerHTML="* please incude @ "; 
+                return false;
+             }
+             else if(password.length<8){
+                document.getElementById("invalid").innerHTML="* password should n't lessthan  8 charecters"; 
+                return false;
+             }
+             else if(mblno.length!=10){
+                
+                document.getElementById("invalid").innerHTML="*mbl no must be 10 charecters"; 
+                return false;
+
+             }
+             arr.push(user)
+             
+            var newarr=arr.map(function(item){
+                return item.email
+            });
+            isDuplicate=newarr.some(function(item,index){
+               return newarr.indexOf(item)!=index
+            });
+            if(isDuplicate==false){
+                var userdata=JSON.stringify(arr)
+                localStorage.setItem("userdata",userdata)
+            }
+            else{
+                document.getElementById("invalid").innerHTML="* this email already exist";
+                return false;
+            }
+             
+             if(true)  {
+                 alert("registered successfully")
+                 //location.reload()
+
+             }  
+             
+             
+             
+         }
+     </script>
+            
+
+
+
+        
+    </body>
+
+</html>

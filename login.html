@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            body{
+                padding:180px;
+                background-image:url("C:/Users/AJAY/Desktop/ocean.jpg")
+            
+            }
+            div{
+                background-color:lightgreen;
+                 width:300px;
+                 border:1px solid black;
+                 border-radius:20px;
+                 height:280px;
+               
+
+            }
+            h1{
+                color:red;
+            }
+            .inputdata{
+                border-radius:5px;
+                padding:10px;
+                
+            }
+            a{
+                color:red;
+                font-size:20px;
+                text-decoration:none;
+            }
+        </style>
+
+    </head>
+    <body bgcolor="pink"></body>
+        <center>
+        <div>
+        <h1>loginform</h1>
+        <form>
+        <input  class="inputdata" type="email" id="mymail" placeholder="email"><br><br>
+        <input class="inputdata" type="password" id="mypass" placeholder="password"><br><br>
+       
+         <input  class="inputdata" type="button" onclick="login()" value="login">
+         <p>don't registered?<a href="register.html">register</a></p>
+
+        </form>
+        <p id="invalid" style="color:red;font-size:20px"></p>
+        </div>
+        </center>
+        <script>
+            
+              function login(){
+                event.preventDefault();
+                var email=document.getElementById("mymail").value;
+                var password=document.getElementById("mypass").value;
+                var user={
+                    email:email,
+                    password:password
+
+                }
+                
+
+                var x = JSON.parse(localStorage.getItem("userdata"))
+                var userdata =x.find(function(element){
+                return element.email==user.email && element.password==user.password;
+            });
+            if(userdata==undefined){
+                document.getElementById("invalid").innerHTML="*invalid input";
+            }
+            else{
+                window.location.assign("commentimage.html") 
+            }
+            
+        }
+
+                
+            
+                
+            
+
+
+
+
+              
+
+            
+
+        
+    </script>
+
+
+
+
+    </body>
+</html>

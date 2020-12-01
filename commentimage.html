@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <style>
+            body{
+               background-color:bisque; 
+            }
+            #img1{
+               
+                border:2px solid red;
+                border-radius:20px;
+               
+            }
+            
+            #btn{
+                border-radius:20px;
+                padding:20px;
+            }
+            
+           
+            .counting{
+                display:flex;
+                
+                width:500px;
+                justify-content:space-between;
+                font-size:20px;
+                align-items:center;
+                border-radius:10px;
+                
+            }
+            #cmt{
+                border:1px solid black;
+                width:300px;
+                padding:20px
+            }
+            .countingbtns{
+                display:flex;
+                border:1px solid black;
+                width:500px;
+                padding:10px;
+                justify-content:space-between;
+                border-radius:10px;
+               
+            }
+            
+
+
+        
+            
+            </style>
+
+    </head>
+    <body>
+        <center>
+            <div>
+        <div class="imgcantainer">
+        <img id="img1" src="C:\Users\AJAY\Desktop\rose.jpg" width:"500px">
+       
+        <div class="counting">
+        <p id="likeimg"></p>
+        <span id="allcomments" onclick="showcomments()"></span>
+        </div>
+        <div class="countingbtns">
+      <button onclick="imglikecount()"><i class="fa fa-thumbs-o-up"></i>Like</button>
+      <button id="show" onclick="commentBox()">Comment</button>
+      <button>share</button>
+      </div>
+        </div><br>
+        
+        <form id="cmt">
+        username:<input type="text" id="txt"><br>
+        comment:<textarea id="msg" placeholder="write a comment....">
+        </textarea><br>
+        <button onclick="send()" >send</button>
+        </form>
+        </div>
+        <div class="allcomments">
+        <p id="comment"></p>
+        </div>
+        </center>
+        <script>
+         document.getElementById("cmt").style.display="none";
+         
+         function commentBox(){
+            document.getElementById("cmt").style.display="block";
+         } 
+         var getcmtdata=JSON.parse(localStorage.getItem("cmtdata"))
+
+         cmtarr=[]
+         if(getcmtdata.length){
+             cmtarr=getcmtdata
+         }
+         function send(){
+             event.preventDefault();
+            var username=document.getElementById("txt").value;
+            var comment=document.getElementById("msg").value;
+            comment=comment.trim();
+            
+            var cmtobj={
+                username:username,
+                comment:comment,
+            }  
+            if(username==""||comment==""){
+                alert("please comment somthing")
+                return false;
+            }
+            cmtarr.push(cmtobj)
+            //console.log(cmtarr)
+            localStorage.setItem("cmtdata",JSON.stringify(cmtarr))
+            location.reload();
+            
+        }   
+        
+        function showcomments(){
+            getcmtdata=JSON.parse(localStorage.getItem("cmtdata"))
+            for(i=0;i<getcmtdata.length;i++){
+            document.getElementById("comment").innerHTML +=  getcmtdata[i].username+":"+getcmtdata[i].comment+"<br>"+
+            '<div>'+'<i class="fa fa-thumbs-o-up" onclick="imagecmtlikes('+i+')">like</i>'+'<span id="likecmt"></span>'+
+            '&nbsp&nbsp&nbsp'+'<span onclick="Replycomment('+i+')">reply</span>'+'</div>'+"<br>"
+           
+           
+            }
+        }
+        document.getElementById("allcomments").innerHTML=getcmtdata.length+"comments";
+        document.getElementById("allcomments").style.color="red";
+        var n=Number(localStorage.getItem("imgcount"));
+        var count=n;
+         function imglikecount(){
+            var n=Number(localStorage.getItem("imgcount"));
+            var count=n;
+            count=count+1
+            //console.log(count)
+            localStorage.setItem("imgcount",JSON.stringify(count))
+            document.getElementById("likeimg").innerHTML ='<i class="fa fa-thumbs-o-up"></i>' + count;
+
+         }
+         document.getElementById("likeimg").innerHTML ='<i class="fa fa-thumbs-o-up"></i>'+ count;
+         document.getElementById("likeimg").style.color="red";
+         function imagecmtlikes(index){
+             console.log(index)
+             getimgcmtlike=Number(localStorage.getItem("cmtlikes"))
+             imgcmtlike=getimgcmtlike;
+             imgcmtlike=imgcmtlike+1
+             localStorage.setItem("cmtlikes",JSON.stringify(imgcmtlike))
+             document.getElementById("likecmt").innerHTML=imgcmtlike
+             
+         }
+         
+         
+         
+        
+
+         
+
+
+         
+        </script>
+    </body>
+</html>
